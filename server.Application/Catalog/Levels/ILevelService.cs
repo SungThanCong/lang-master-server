@@ -1,5 +1,6 @@
 ﻿using server.Data.Entities;
 using server.ViewModel.Catalog.Course;
+using server.ViewModel.Catalog.Level;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace server.Application.Catalog.Levels
 {
     public interface ILevelService
     {
-        public Task<Level?> Create(CourseCreateRequest request);
-        public Task<bool> Update(Guid idCourse, CourseUpdateRequest request);
-        public Task<bool> Remove(Guid idCourse);
-        public Task<List<Course>> FindAll();
-        public Task<Course?> FindOne(Guid idCourse);
+        public Task<Level?> Create(LevelCreateRequest request);
+        public Task<bool> Update(Guid idLevel, LevelUpdateRequest request);
+        public Task<bool> Remove(Guid idLevel);
+        public Task<List<Level>> FindAll();
+        public Task<Level?> FindOne(Guid idLevel);
     }
 }

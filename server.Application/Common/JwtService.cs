@@ -10,7 +10,7 @@ namespace server.Application.Common
 {
     public class JwtService
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public JwtService(IConfiguration configuration)
         {

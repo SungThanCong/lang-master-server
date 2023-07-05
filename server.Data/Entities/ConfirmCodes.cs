@@ -11,8 +11,6 @@ namespace server.Data.Entities
         public Guid id { get; set; }
         public string Token { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime UpdateAt { get; set; }
         public Guid IdUser { get; set; }
 
         public AppUser AppUser { get; set; }

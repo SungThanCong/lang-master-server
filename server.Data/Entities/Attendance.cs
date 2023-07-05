@@ -8,6 +8,7 @@ namespace server.Data.Entities
 {
     public class Attendance
     {
+        public Guid IdAttendance { get; set; }
         public Guid IdStudent { get; set; }
         public Guid IdClassTime { get; set; }
         public DateTime CheckedDate { get; set; }

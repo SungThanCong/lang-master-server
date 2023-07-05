@@ -40,14 +40,16 @@ namespace server.Application.Catalog.Attendances
             return await _context.Attendances.ToListAsync();
         }
 
-        public async Task<Attendance?> FindOne(Guid idStudent, Guid idClassTime)
+        public async Task<Attendance?> FindOne(Guid id)
         {
-            return await _context.Attendances.Where(x=> x.IdStudent == idStudent && x.IdClassTime == idClassTime).FirstOrDefaultAsync();
+            //return await _context.Attendances.Where(x=> x.IdStudent == idStudent && x.IdClassTime == idClassTime).FirstOrDefaultAsync();
+            return await _context.Attendances.FindAsync(id);
         }
 
-        public async Task<bool> Remove(Guid idStudent, Guid idClassTime)
+        public async Task<bool> Remove(Guid id)
         {
-            var result = await _context.Attendances.Where(x => x.IdStudent == idStudent && x.IdClassTime == idClassTime).FirstOrDefaultAsync();
+            var result = await _context.Attendances.FindAsync(id);
+
             if (result != null)
             {
                 _context.Attendances.Remove(result);
@@ -56,9 +58,9 @@ namespace server.Application.Catalog.Attendances
             return true;
         }
 
-        public async Task<bool> Update(Guid idStudent, Guid idClassTime, AttendanceUpdateRequest request)
+        public async Task<bool> Update(Guid id, AttendanceUpdateRequest request)
         {
-            var attendance = await _context.Attendances.Where(x => x.IdStudent == idStudent && x.IdClassTime == idClassTime).FirstOrDefaultAsync();
+            var attendance = await _context.Attendances.FindAsync(id);
             if (attendance != null)
             {
                 attendance.CheckedDate = request.CheckedDate;

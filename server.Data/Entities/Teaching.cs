@@ -8,6 +8,8 @@ namespace server.Data.Entities
 {
     public class Teaching
     {
+        public Guid IdTeaching { get; set; }
+
         public Guid IdLecturer { get; set; }
 
         public Guid IdClass { get; set; }

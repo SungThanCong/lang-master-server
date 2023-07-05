@@ -33,31 +33,59 @@ namespace server.Application.System.Auth
             _JwtService = jwtService;
         }
 
-        public async Task<string> RefreshToken(string requestToken)
+        public async Task<string> RefreshToken(RefreshTokens requestToken)
         {
-            var tokenExist = await _context.RefreshTokens.Where(x => x.Token == requestToken).FirstOrDefaultAsync();
-            if (tokenExist == null) return null;
-            if (tokenExist.ExpiryDate.CompareTo(DateTime.Now) < 0) return null;
-
-            Claim[] claims = new[]
+            try
             {
-                new Claim("id", tokenExist.AppUser.Id.ToString())
-            };
-            var newAccessToken = _JwtService.Generate(claims);
+                if (requestToken.ExpiryDate.CompareTo(DateTime.Now) < 0) return null;
 
-            return newAccessToken;
+                Claim[] claims = new[]
+                {
+                    new Claim("id", requestToken.AppUser.Id.ToString())
+                };
+                var newAccessToken = _JwtService.Generate(claims);
+
+                return newAccessToken;
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+           
             
         }
 
-        public async Task<string> ResetPassword()
+        public async Task<int> ResetPassword(ConfirmCodes code, AppUser user, string newPassword)
         {
-            throw new NotImplementedException();
+            if (code.ExpiryDate.Date < new DateTime().Date)
+            {
+                _context.ConfirmCodes.Remove(code);
+                await _context.SaveChangesAsync();
+                return -1;
+            }
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result =await _userManager.ResetPasswordAsync(user, resetToken, newPassword );
+
+            return result == IdentityResult.Success ? 1 : 0;             
+
         }
 
-        public async Task<string> SendEmail(SendEmailRequest request)
+        public async Task<string> CreateConfirmCode(AppUser user)
         {
-            throw new NotImplementedException();
-        }
+            var expiredAt = DateTime.Now;
+
+            expiredAt.AddSeconds(120);
+            var _token = Math.Floor(new Random().Next(900000) + 100000 * 1.0);
+            var confirmCode = _context.ConfirmCodes.Add(new ConfirmCodes() {
+                Token = _token.ToString(),
+                IdUser = user.Id,
+                ExpiryDate = expiredAt,
+            });
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+                return _token.ToString();
+            else return null;
+        }   
+
 
         public async Task<object> SignIn(LoginRequest request)
         {
@@ -98,7 +126,7 @@ namespace server.Application.System.Auth
             await _context.SaveChangesAsync();
             //------------------
 
-            return new { accessToken = accessToken, refreshToken = refreshToken_token };
+            return new { account, accessToken = accessToken, refreshToken = refreshToken_token };
 
         }
     }

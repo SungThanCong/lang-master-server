@@ -45,7 +45,7 @@ namespace server.Application.Catalog.Classes
 
         public async Task<Class> FindOne(string id)
         {
-            return await _context.Classes.ToListAsync(id);
+            return await _context.Classes.FindAsync(id);
         }
 
         public async Task<bool> Remove(string id)

@@ -16,11 +16,14 @@ namespace server.Data.Entities
         public int Gender { get; set; }
         public string? Address { get; set; }
         public string? ImageUrl { get; set; }
+        public bool IsActivated { get; set; }
 
         public Employee Employee { get; set; }
         public Lecturer Lecturer { get; set; }
         public Student Student { get; set; }
         public RefreshTokens RefreshTokens { get; set; }
+        public List<Noti_Account> NotiAccounts { get; set; }
+        public List<ConfirmCodes> ConfirmCodes { get; set; }
 
     }
 }

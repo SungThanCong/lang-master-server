@@ -11,9 +11,9 @@ namespace server.Application.Catalog.Attendances
     public interface IAttendanceService
     {
         public Task<Attendance?> Create(AttendanceCreateRequest request);
-        public Task<bool> Update(Guid idStudent,Guid idClassTime,AttendanceUpdateRequest request);
-        public Task<bool> Remove(Guid idStudent, Guid idClassTime);
-        public Task<Attendance?> FindOne(Guid idStudent, Guid idClassTime);
+        public Task<bool> Update(Guid id, AttendanceUpdateRequest request);
+        public Task<bool> Remove(Guid id);
+        public Task<Attendance?> FindOne(Guid id);
         public Task<List<Attendance>> FindAll();
 
     }

@@ -42,7 +42,9 @@ namespace server.Data.EF
             builder.ApplyConfiguration(new RefreshTokenConfiguration());
             builder.ApplyConfiguration(new CenterConfiguration());
             builder.ApplyConfiguration(new AttendanceConfiguration());
-
+            builder.ApplyConfiguration(new NotificationConfiguration());
+            builder.ApplyConfiguration(new NotiAccountConfiguration());
+            builder.ApplyConfiguration(new ConfirmCodeConfiguration());
 
 
 
@@ -80,9 +82,13 @@ namespace server.Data.EF
         public DbSet<Testing> Testings { get; set; }
         public DbSet<TestType> TestTypes { get; set; }
         public DbSet<TimeFrame> TimeFrames { get; set; }
+       
 
         public DbSet<RefreshTokens> RefreshTokens { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<ConfirmCodes> ConfirmCodes { get; set; }
+        public DbSet<Notification> Notifications  { get; set; }
+        public DbSet<Noti_Account> Noti_Accounts { get; set; }
 
     }
 

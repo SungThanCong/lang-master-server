@@ -154,7 +154,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "aba2ea72-15ac-4e4b-bbac-cef9163da088",
+                            ConcurrencyStamp = "ea92f41f-3685-4c8d-b85c-c229f35d90a7",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -162,7 +162,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("0fcbb353-ae6b-4936-9fdd-950efeb452a6"),
-                            ConcurrencyStamp = "2ae877f3-85de-429f-978d-ecfd1bb98e90",
+                            ConcurrencyStamp = "797435df-843a-4efc-942c-b50bde2e1ec8",
                             Description = "Lecturer role",
                             Name = "lecturer",
                             NormalizedName = "lecturer"
@@ -170,7 +170,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("09480504-4c27-4af7-a492-adcdbbe6c097"),
-                            ConcurrencyStamp = "2c6177a0-5992-49c6-bea5-afbedf3df253",
+                            ConcurrencyStamp = "711c00d7-9c54-4ce2-bbe7-ac998e933f6e",
                             Description = "Employee role",
                             Name = "employee",
                             NormalizedName = "employee"
@@ -212,6 +212,9 @@ namespace server.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActivated")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -252,16 +255,17 @@ namespace server.Data.Migrations
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
                             Address = "Quang Nam",
-                            ConcurrencyStamp = "c25bd868-d81c-4d3f-83ee-c31469395096",
+                            ConcurrencyStamp = "2e477f34-22e2-422c-b257-c24e761ea9a9",
                             DisplayName = "Luu Le Ba Chinh",
                             Dob = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "chinh.admin@gmail.com",
                             EmailConfirmed = true,
                             Gender = 0,
+                            IsActivated = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "chinh.admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAprutCvPMyJ15wCWHwgHQa1Kn+yQbRRmijSOW/cw2GxU+5pM5K1h6h0Nh/8sHgNNw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGyXjtBUAedqw3i/eXcpEaodwz1aqXJJxSd1tKgWFhWe3PrrnRhP/DFvD09IkkSu/g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -271,18 +275,24 @@ namespace server.Data.Migrations
 
             modelBuilder.Entity("server.Data.Entities.Attendance", b =>
                 {
-                    b.Property<Guid>("IdStudent")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("IdClassTime")
+                    b.Property<Guid>("IdAttendance")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CheckedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("IdStudent", "IdClassTime");
+                    b.Property<Guid>("IdClassTime")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdStudent")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IdAttendance");
 
                     b.HasIndex("IdClassTime");
+
+                    b.HasIndex("IdStudent");
 
                     b.ToTable("Attendance", (string)null);
                 });
@@ -296,7 +306,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 5, 25, 14, 11, 25, 425, DateTimeKind.Local).AddTicks(7275));
+                        .HasDefaultValue(new DateTime(2023, 7, 4, 16, 15, 15, 423, DateTimeKind.Local).AddTicks(3388));
 
                     b.Property<Guid>("IdEmployee")
                         .HasColumnType("uniqueidentifier");
@@ -449,6 +459,29 @@ namespace server.Data.Migrations
                     b.ToTable("ColumnTranscript", (string)null);
                 });
 
+            modelBuilder.Entity("server.Data.Entities.ConfirmCodes", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("IdUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("ConfirmCode", (string)null);
+                });
+
             modelBuilder.Entity("server.Data.Entities.Course", b =>
                 {
                     b.Property<Guid>("IdCourse")
@@ -564,7 +597,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("PostedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 5, 25, 14, 11, 25, 438, DateTimeKind.Local).AddTicks(2646));
+                        .HasDefaultValue(new DateTime(2023, 7, 4, 16, 15, 15, 430, DateTimeKind.Local).AddTicks(3243));
 
                     b.Property<DateTime>("TestDate")
                         .HasColumnType("datetime2");
@@ -651,6 +684,46 @@ namespace server.Data.Migrations
                     b.ToTable("Level", (string)null);
                 });
 
+            modelBuilder.Entity("server.Data.Entities.Noti_Account", b =>
+                {
+                    b.Property<Guid>("IdNotification")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdAccount")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IdNotification", "IdAccount");
+
+                    b.HasIndex("IdAccount");
+
+                    b.ToTable("NotiAccount", (string)null);
+                });
+
+            modelBuilder.Entity("server.Data.Entities.Notification", b =>
+                {
+                    b.Property<Guid>("IdNotification")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEmployee")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdNotification");
+
+                    b.ToTable("Notification", (string)null);
+                });
+
             modelBuilder.Entity("server.Data.Entities.Parameter", b =>
                 {
                     b.Property<Guid>("IdParameter")
@@ -681,7 +754,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 5, 25, 14, 11, 25, 447, DateTimeKind.Local).AddTicks(7991));
+                        .HasDefaultValue(new DateTime(2023, 7, 4, 16, 15, 15, 435, DateTimeKind.Local).AddTicks(7292));
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -696,7 +769,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("UpdateAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 5, 25, 14, 11, 25, 447, DateTimeKind.Local).AddTicks(8230));
+                        .HasDefaultValue(new DateTime(2023, 7, 4, 16, 15, 15, 435, DateTimeKind.Local).AddTicks(7434));
 
                     b.HasKey("Id");
 
@@ -907,6 +980,17 @@ namespace server.Data.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("server.Data.Entities.ConfirmCodes", b =>
+                {
+                    b.HasOne("server.Data.Entities.AppUser", "AppUser")
+                        .WithMany("ConfirmCodes")
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("server.Data.Entities.Course", b =>
                 {
                     b.HasOne("server.Data.Entities.CourseType", "CourseType")
@@ -994,6 +1078,25 @@ namespace server.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("server.Data.Entities.Noti_Account", b =>
+                {
+                    b.HasOne("server.Data.Entities.AppUser", "AppUser")
+                        .WithMany("NotiAccounts")
+                        .HasForeignKey("IdAccount")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Data.Entities.Notification", "Notification")
+                        .WithMany("NotiAccounts")
+                        .HasForeignKey("IdNotification")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Notification");
+                });
+
             modelBuilder.Entity("server.Data.Entities.RefreshTokens", b =>
                 {
                     b.HasOne("server.Data.Entities.AppUser", "AppUser")
@@ -1056,11 +1159,15 @@ namespace server.Data.Migrations
 
             modelBuilder.Entity("server.Data.Entities.AppUser", b =>
                 {
+                    b.Navigation("ConfirmCodes");
+
                     b.Navigation("Employee")
                         .IsRequired();
 
                     b.Navigation("Lecturer")
                         .IsRequired();
+
+                    b.Navigation("NotiAccounts");
 
                     b.Navigation("RefreshTokens")
                         .IsRequired();
@@ -1129,6 +1236,11 @@ namespace server.Data.Migrations
             modelBuilder.Entity("server.Data.Entities.Level", b =>
                 {
                     b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("server.Data.Entities.Notification", b =>
+                {
+                    b.Navigation("NotiAccounts");
                 });
 
             modelBuilder.Entity("server.Data.Entities.Student", b =>

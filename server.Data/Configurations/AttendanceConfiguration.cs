@@ -15,7 +15,8 @@ namespace server.Data.Configurations
         {
             builder.ToTable("Attendance");
 
-            builder.HasKey(x => new { x.IdStudent, x.IdClassTime });
+            //builder.HasKey(x => new { x.IdStudent, x.IdClassTime });
+            builder.HasKey(x => x.IdAttendance);
 
             builder.HasOne(x => x.Student).WithMany(x => x.Attendances).HasForeignKey(x => x.IdStudent);
 

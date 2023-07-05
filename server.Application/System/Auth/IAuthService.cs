@@ -1,4 +1,5 @@
-﻿using server.ViewModel.System.Auth;
+﻿using server.Data.Entities;
+using server.ViewModel.System.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace server.Application.System.Auth
     {
         public Task<object> SignIn(LoginRequest request);
 
-        public Task<string> RefreshToken(string requestToken);
+        public Task<string> RefreshToken(RefreshTokens requestToken);
 
-        public Task<string> SendEmail(SendEmailRequest request);
+        public Task<string> CreateConfirmCode(AppUser user);
 
-        public Task<string> ResetPassword();
+        public Task<int> ResetPassword(ConfirmCodes code, AppUser user, string newPassword);
 
 
 
