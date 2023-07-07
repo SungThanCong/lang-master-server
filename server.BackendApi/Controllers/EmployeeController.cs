@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Application.Catalog.Bills;
 using server.Application.Catalog.Employees;
@@ -6,6 +7,7 @@ using server.Data.EF;
 using server.Data.Entities;
 using server.ViewModel.Catalog.Bill;
 using server.ViewModel.Catalog.Employee;
+using System.Data;
 
 namespace server.BackendApi.Controllers
 {
@@ -24,6 +26,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Create([FromForm] EmployeeCreateRequest data)
         {
             try
@@ -31,7 +34,8 @@ namespace server.BackendApi.Controllers
                 var employee = await _employeeService.Create(data);
                 if (employee is Employee)
                 {
-                    return StatusCode(200, new JsonResult(employee));
+                    var result = new { idEmployee = employee.IdEmployee, idUser=employee.IdUser, user=employee.User };
+                    return StatusCode(200, result);
                 }
                 else
                 {
@@ -45,12 +49,16 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> FindAll()
         {
             try
             {
                 var employees = await _employeeService.FindAll();
-                return StatusCode(200, new JsonResult(employees));
+                if(employees is null)
+                    return StatusCode(200);
+
+                return StatusCode(200,employees);
 
             }
             catch (Exception ex)
@@ -59,13 +67,19 @@ namespace server.BackendApi.Controllers
             }
         }
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, employee")]
         public async Task<ActionResult> FindOne(string id)
         {
             try
             {
                 var employee = await _employeeService.FindOne(new Guid(id));
+                if(employee != null)
+                {
+                    var result = new { idEmployee = employee.IdEmployee, idUser = employee.IdUser, user = employee.User };
+                
+                    return StatusCode(200, result);
 
-                return StatusCode(200, new JsonResult(employee));
+                }return StatusCode(404,new { message="Not find"});
 
             }
             catch (Exception ex)
@@ -75,7 +89,8 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] EmployeeUpdateRequest request)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Update(string id, [FromBody] EmployeeUpdateRequest request)
         {
             try
             {
@@ -94,6 +109,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Remove(string id)
         {
             try

@@ -19,6 +19,7 @@ namespace server.BackendApi.Controllers
         private readonly IConfiguration _configuration;
 
 
+
         public AttendanceController(IAttendanceService attendanceService, LangDbContext context, IConfiguration configuration)
         {
             _attendanceService = attendanceService;
@@ -27,14 +28,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] AttendanceCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] AttendanceCreateRequest data)
         {
             try
             {
                 var attendance = await _attendanceService.Create(data);
                 if (attendance is Attendance)
                 {
-                    return StatusCode(200, new JsonResult(attendance));
+                    return StatusCode(200, attendance);
                 }
                 else
                 {
@@ -53,7 +54,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var attendances = await _attendanceService.FindAll();
-                return StatusCode(200, new JsonResult(attendances));
+                return StatusCode(200, attendances);
 
             }
             catch (Exception ex)
@@ -68,7 +69,7 @@ namespace server.BackendApi.Controllers
             {
                 var user = await _attendanceService.FindOne(new Guid(id));
      
-                return StatusCode(200, new JsonResult(user));
+                return StatusCode(200,user);
 
             }
             catch (Exception ex)
@@ -78,7 +79,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] AttendanceUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] AttendanceUpdateRequest request)
         {
             try
             {

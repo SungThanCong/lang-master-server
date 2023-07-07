@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using server.Application.Catalog.Accounts;
 using server.Application.Catalog.Attendances;
@@ -22,6 +22,13 @@ using server.Application.System.Auth;
 using server.Data.EF;
 using server.Data.Entities;
 using server.Uilities.Constants;
+using Newtonsoft.Json;
+using Serilog;
+using Serilog.Events;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace server.BackendApi
 {
@@ -29,7 +36,16 @@ namespace server.BackendApi
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args); 
+
+         
+            var Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(Logger);
+
 
             IConfiguration configuration = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())
@@ -38,17 +54,26 @@ namespace server.BackendApi
 
             // Add services to the container.
             builder.Services.AddDbContext<LangDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LangcenterDatabase")));
+                {   
+              
+                    options.UseLazyLoadingProxies(true);
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("LangcenterDatabase"));
+                }
+            );
             // Add services to the container.
             builder.Services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<LangDbContext>()
                 .AddDefaultTokenProviders();
 
+         
+         
+
+
             builder.Services.AddCors(option =>
             {
                 option.AddPolicy("AllowAnyOrigin", builder => builder.AllowAnyOrigin()
                                                                 .AllowAnyHeader()
-                                                                .AllowAnyMethod());
+                                                              .AllowAnyMethod());
             });
 
             builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
@@ -65,6 +90,8 @@ namespace server.BackendApi
             builder.Services.AddTransient<IClassService, ClassService>();
             builder.Services.AddTransient<IColumnTranscriptService, ColumnTranscriptService>();
             builder.Services.AddTransient<ICourseService, CourseService>();
+            builder.Services.AddTransient<ICourseTypeService, CourseTypeService>();
+
             builder.Services.AddTransient<IEmployeeService, EmployeeService>();
             builder.Services.AddTransient<IExamService, ExamService>();
             builder.Services.AddTransient<ILecturerService, LecturerService>();
@@ -77,11 +104,46 @@ namespace server.BackendApi
             builder.Services.AddTransient<ITimeFrameService, TimeFrameService>();
 
 
-            builder.Services.AddControllers().AddJsonOptions(options =>
+            //builder.Services.AddControllers().AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //    options.JsonSerializerOptions.WriteIndented = true;
+
+            //});
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; 
+                }
+            );
+
+            builder.Services.AddAuthentication(options =>
             {
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                options.JsonSerializerOptions.WriteIndented = true;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                        })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Tokens:Issuer"],
+                    ValidAudience = builder.Configuration["Tokens:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Tokens:Key"])),
+                    LifetimeValidator = (DateTime? notBefore, DateTime? expires, SecurityToken _, TokenValidationParameters __) =>
+                    {
+                        if (expires != null && expires > DateTime.UtcNow)
+                        {
+                            return true;
+                        }
+                        return false;
+                    },
+                    RoleClaimType = ClaimTypes.Role,
+                };
             });
+
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -94,10 +156,18 @@ namespace server.BackendApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+
+            //app.UseSerilogRequestLogging(); 
+
+            //app.UseLoggingMiddleware();
+
+
             app.UseRouting();
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors("AllowAnyOrigin");
@@ -110,6 +180,7 @@ namespace server.BackendApi
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
 
             app.Run();
         }

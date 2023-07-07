@@ -16,9 +16,9 @@ namespace server.Data.Configurations
             builder.ToTable("TimeFrame");
 
             builder.HasKey(x => x.IdTimeFrame);
-            builder.Property(x => x.StartTime).IsRequired();
-            builder.Property(x => x.EndTime).IsRequired();
-            builder.Property(x => x.Active).HasDefaultValue(false);
+            builder.Property(x => x.StartingTime).IsRequired();
+            builder.Property(x => x.EndingTime).IsRequired();
+            builder.Property(x => x.Activate).HasDefaultValue(true);
         }
     }
 }

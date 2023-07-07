@@ -17,7 +17,7 @@ namespace server.Data.Configurations
 
             builder.HasKey(x => x.IdEmployee);
 
-            builder.HasOne(x => x.AppUser).WithOne(x => x.Employee).HasForeignKey<Employee>(x => x.IdUser).IsRequired();
+            builder.HasOne(x => x.User).WithOne(x => x.Employee).HasForeignKey<Employee>(x => x.IdUser).IsRequired();
 
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
         }

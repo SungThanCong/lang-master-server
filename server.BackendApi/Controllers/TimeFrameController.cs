@@ -31,7 +31,7 @@ namespace server.BackendApi.Controllers
                 var timeFrame = await _timeFrameService.Create(data);
                 if (timeFrame is TimeFrame)
                 {
-                    return StatusCode(200, new JsonResult(timeFrame));
+                    return StatusCode(200, timeFrame);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var timeFrames = await _timeFrameService.FindAll();
-                return StatusCode(200, new JsonResult(timeFrames));
+                return StatusCode(200, timeFrames);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var timeFrame = await _timeFrameService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(timeFrame));
+                return StatusCode(200,timeFrame);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] TimeFrameUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] TimeFrameUpdateRequest request)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace server.BackendApi.Controllers
             }
         }
         [HttpPatch()]
-        public async Task<ActionResult> UpdateAll(string id, [FromForm] List<TimeFrameUpdateRequest> request)
+        public async Task<ActionResult> UpdateAll(string id, [FromBody] List<TimeFrameUpdateRequest> request)
         {
             try
             {

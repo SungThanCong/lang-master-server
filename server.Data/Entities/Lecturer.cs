@@ -12,7 +12,7 @@ namespace server.Data.Entities
         public Guid IdUser { get; set; }
         public bool IsDeleted { get; set; }
 
-        public AppUser AppUser { get; set; }
-        public List<Teaching> Teachings { get; set; }
+        public virtual AppUser AppUser { get; set; }
+        public virtual List<Teaching> Teachings { get; set; }
     }
 }

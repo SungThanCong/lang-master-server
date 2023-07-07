@@ -10,12 +10,12 @@ namespace server.Data.Entities
     {
         public Guid IdTimeFrame { get; set; }
 
-        public int StartTime { get; set; }
+        public string StartingTime { get; set; }
 
-        public int EndTime { get; set; }
+        public string EndingTime { get; set; }
 
-        public bool Active { get; set; }
+        public bool Activate { get; set; }
 
-        public List<ClassTime> ClassTimes { get; set; }
+        public virtual List<ClassTime> ClassTimes { get; set; }
     }
 }

@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] ExamCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] ExamCreateRequest data)
         {
             try
             {
                 var exam = await _examService.Create(data);
                 if (exam is Exam)
                 {
-                    return StatusCode(200, new JsonResult(exam));
+                    return StatusCode(200,exam);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var exams = await _examService.FindAll();
-                return StatusCode(200, new JsonResult(exams));
+                return StatusCode(200, exams);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var bill = await _examService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(bill));
+                return StatusCode(200, bill);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] ExamUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] ExamUpdateRequest request)
         {
             try
             {

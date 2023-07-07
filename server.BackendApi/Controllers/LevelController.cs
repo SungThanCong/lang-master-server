@@ -9,7 +9,7 @@ using server.ViewModel.Catalog.Level;
 
 namespace server.BackendApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/levels")]
     [ApiController]
     public class LevelController : ControllerBase
     {
@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] LevelCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] LevelCreateRequest data)
         {
             try
             {
                 var level = await _levelService.Create(data);
                 if (level is Level)
                 {
-                    return StatusCode(200, new JsonResult(level));
+                    return StatusCode(200, level);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var levels = await _levelService.FindAll();
-                return StatusCode(200, new JsonResult(levels));
+                return StatusCode(200, levels);
 
             }
             catch (Exception ex)
@@ -63,9 +63,9 @@ namespace server.BackendApi.Controllers
         {
             try
             {
-                var bill = await _levelService.FindOne(new Guid(id));
+                var level = await _levelService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(bill));
+                return StatusCode(200, level);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] LevelUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] LevelUpdateRequest request)
         {
             try
             {

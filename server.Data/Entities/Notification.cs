@@ -14,6 +14,6 @@ namespace server.Data.Entities
         public DateTime CreateDate { get; set; }
         public bool IsEmployee { get; set; }
 
-        public List<Noti_Account> NotiAccounts { get; set; }
+        public virtual List<Noti_Account> NotiAccounts { get; set; }
     }
 }

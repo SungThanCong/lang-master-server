@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Data.EF;
 
@@ -11,9 +12,11 @@ using server.Data.EF;
 namespace server.Data.Migrations
 {
     [DbContext(typeof(LangDbContext))]
-    partial class LangDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230705191655_change_datatype_timeframe")]
+    partial class change_datatype_timeframe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,7 +160,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "c4c8681a-ed77-47af-b780-e4303f560478",
+                            ConcurrencyStamp = "845b27b0-bebb-4330-9a65-ae0b1266c75d",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -165,7 +168,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("0fcbb353-ae6b-4936-9fdd-950efeb452a6"),
-                            ConcurrencyStamp = "5320d495-2cfc-479b-9419-5f43669cb9e8",
+                            ConcurrencyStamp = "4627d6bd-bfb7-4556-991b-c1d0a6ba9207",
                             Description = "Lecturer role",
                             Name = "lecturer",
                             NormalizedName = "lecturer"
@@ -173,7 +176,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("09480504-4c27-4af7-a492-adcdbbe6c097"),
-                            ConcurrencyStamp = "78242784-7da4-4551-81b9-3701814f26dd",
+                            ConcurrencyStamp = "402d8e17-df3f-40bf-8edb-0cc1e40e5f93",
                             Description = "Employee role",
                             Name = "employee",
                             NormalizedName = "employee"
@@ -258,7 +261,7 @@ namespace server.Data.Migrations
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
                             Address = "Quang Nam",
-                            ConcurrencyStamp = "4b00bfc7-b0c7-4f2d-8ae3-b773a31fbb3a",
+                            ConcurrencyStamp = "93cae98f-8289-4caf-8ad1-1387b38c0ce5",
                             DisplayName = "Luu Le Ba Chinh",
                             Dob = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "chinh.admin@gmail.com",
@@ -268,7 +271,7 @@ namespace server.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "chinh.admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI594sOx6W/Ci88yINNMOaYqQh3VABHgxomlgs/N4JeVsLKvZP3KePlOP5Uy87VY3Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOt3EXWAmGJwDSVW/bVc91VARPvY2rS8+YDve4iMR29sxUecGbt2K2S4wcIf2SZFRw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -309,16 +312,13 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 414, DateTimeKind.Local).AddTicks(8421));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 2, 16, 55, 741, DateTimeKind.Local).AddTicks(8820));
 
                     b.Property<Guid>("IdEmployee")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("IdStudent")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<decimal>("TotalFee")
                         .HasColumnType("decimal(18,2)");
@@ -337,15 +337,15 @@ namespace server.Data.Migrations
                     b.Property<Guid>("IdBill")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("IdClass")
+                    b.Property<Guid>("IdCourse")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Fee")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("IdBill", "IdClass");
+                    b.HasKey("IdBill", "IdCourse");
 
-                    b.HasIndex("IdClass");
+                    b.HasIndex("IdCourse");
 
                     b.ToTable("BillInfo", (string)null);
                 });
@@ -603,7 +603,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("PostedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 423, DateTimeKind.Local).AddTicks(389));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 2, 16, 55, 749, DateTimeKind.Local).AddTicks(7664));
 
                     b.Property<DateTime>("TestDate")
                         .HasColumnType("datetime2");
@@ -760,7 +760,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 429, DateTimeKind.Local).AddTicks(828));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 2, 16, 55, 755, DateTimeKind.Local).AddTicks(7583));
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -775,7 +775,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("UpdateAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 429, DateTimeKind.Local).AddTicks(977));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 2, 16, 55, 755, DateTimeKind.Local).AddTicks(7736));
 
                     b.HasKey("Id");
 
@@ -870,10 +870,10 @@ namespace server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Activate")
+                    b.Property<bool>("Active")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasDefaultValue(false);
 
                     b.Property<string>("EndingTime")
                         .IsRequired()
@@ -934,15 +934,15 @@ namespace server.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("server.Data.Entities.Class", "Class")
+                    b.HasOne("server.Data.Entities.Course", "Course")
                         .WithMany("BillInfos")
-                        .HasForeignKey("IdClass")
+                        .HasForeignKey("IdCourse")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bill");
 
-                    b.Navigation("Class");
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("server.Data.Entities.Class", b =>
@@ -1197,8 +1197,6 @@ namespace server.Data.Migrations
 
             modelBuilder.Entity("server.Data.Entities.Class", b =>
                 {
-                    b.Navigation("BillInfos");
-
                     b.Navigation("ClassTimes");
 
                     b.Navigation("Exams");
@@ -1222,6 +1220,8 @@ namespace server.Data.Migrations
 
             modelBuilder.Entity("server.Data.Entities.Course", b =>
                 {
+                    b.Navigation("BillInfos");
+
                     b.Navigation("Classes");
 
                     b.Navigation("ColumnCourses");

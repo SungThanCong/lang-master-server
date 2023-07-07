@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] TestTypeCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] TestTypeCreateRequest data)
         {
             try
             {
                 var testType = await _testTypeService.Create(data);
                 if (testType is TestType)
                 {
-                    return StatusCode(200, new JsonResult(testType));
+                    return StatusCode(200,testType);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var testTypes = await _testTypeService.FindAll();
-                return StatusCode(200, new JsonResult(testTypes));
+                return StatusCode(200, testTypes);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var testType = await _testTypeService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(testType));
+                return StatusCode(200, testType);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] TestTypeUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] TestTypeUpdateRequest request)
         {
             try
             {

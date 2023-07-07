@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Data.EF;
 
@@ -11,9 +12,11 @@ using server.Data.EF;
 namespace server.Data.Migrations
 {
     [DbContext(typeof(LangDbContext))]
-    partial class LangDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706174318_updateName")]
+    partial class updateName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

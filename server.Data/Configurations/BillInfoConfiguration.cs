@@ -15,11 +15,11 @@ namespace server.Data.Configurations
         {
             builder.ToTable("BillInfo");
 
-            builder.HasKey(x => new {x.IdBill, x.IdCourse});
+            builder.HasKey(x => new {x.IdBill, x.IdClass});
 
             builder.HasOne(x => x.Bill).WithMany(x => x.BillInfos).HasForeignKey(x => x.IdBill);
 
-            builder.HasOne(x => x.Course).WithMany(x => x.BillInfos).HasForeignKey(x => x.IdCourse);
+            builder.HasOne(x => x.Class).WithMany(x => x.BillInfos).HasForeignKey(x => x.IdClass);
 
         }
     }

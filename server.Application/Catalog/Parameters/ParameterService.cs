@@ -65,20 +65,27 @@ namespace server.Application.Catalog.Parameters
             return false;
         }
 
-        public async Task<bool> Update(string name, ParameterUpdateRequest request)
+        public async Task<bool> Update(List<ParameterUpdateRequest> request)
         {
-            var parameter = await _context.Parameters.Where(x => x.Name == name).FirstOrDefaultAsync();
-            if (parameter != null)
+            try
             {
-                parameter.Value = request.Value;
-
-                var result = await _context.SaveChangesAsync();
-                if (result > 0)
+                foreach (var item in request)
                 {
-                    return true;
+                    var parameter = await _context.Parameters.Where(x => x.Name == item.Name).FirstOrDefaultAsync();
+                    if (parameter != null)
+                    {
+                        parameter.Value = item.Value;
+                        await _context.SaveChangesAsync();
+                    }
+
                 }
+
+                return true;
             }
-            return false;
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ namespace server.ViewModel.Catalog.Parameter
 {
     public class ParameterUpdateRequest
     {
+        public string Name { get; set; }
+
         public string Value { get; set; }
     }
 }

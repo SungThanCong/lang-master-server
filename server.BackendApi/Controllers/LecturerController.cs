@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] LecturerCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] LecturerCreateRequest data)
         {
             try
             {
                 var lecturer = await _lecturerService.Create(data);
                 if (lecturer is Lecturer)
                 {
-                    return StatusCode(200, new JsonResult(lecturer));
+                    return StatusCode(200, lecturer);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var lecturers = await _lecturerService.FindAll();
-                return StatusCode(200, new JsonResult(lecturers));
+                return StatusCode(200, lecturers);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var lecturer = await _lecturerService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(lecturer));
+                return StatusCode(200,lecturer);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] LecturerUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] LecturerUpdateRequest request)
         {
             try
             {

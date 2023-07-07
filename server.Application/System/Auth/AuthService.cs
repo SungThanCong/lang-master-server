@@ -84,22 +84,31 @@ namespace server.Application.System.Auth
             if (result > 0)
                 return _token.ToString();
             else return null;
-        }   
+        }
 
 
         public async Task<object> SignIn(LoginRequest request)
         {
-          
-            var account = await _userManager.FindByNameAsync(request.Username);
+
+            //var account = await _userManager.FindByNameAsync(request.Username);
+            var account = await _context.AppUsers.Where(x => x.UserName == request.Username).FirstOrDefaultAsync();
+
             if (account == null) return null;
 
             var checkLogin = await _userManager.CheckPasswordAsync(account, request.Password);
             if (checkLogin == false) return null;
 
+            var role = (await _userManager.GetRolesAsync(account))[0];
+
             Claim[] claims = new[]
             {
-                new Claim("id", account.Id.ToString())
+                new Claim("id", account.Id.ToString()),
+                new Claim(ClaimTypes.Name, account.UserName),
+                new Claim(ClaimTypes.Role, role)
             };
+
+            
+
             var accessToken = _JwtService.Generate(claims);
             var refreshToken_token = _JwtService.GenerateRefreshToken();
 
@@ -124,9 +133,12 @@ namespace server.Application.System.Auth
                 await _context.RefreshTokens.AddAsync(refreshToken);
             }
             await _context.SaveChangesAsync();
+            //var role = _userManager.GetRolesAsync(account);
             //------------------
 
-            return new { account, accessToken = accessToken, refreshToken = refreshToken_token };
+            return new { user = new { account.DisplayName, account.UserName, account.PhoneNumber, account.Address, idUser = account.Id, Role = new {name = role },
+                idLecture=account.Lecturer?.IdLecturer, idEmployee=account.Employee?.IdEmployee  }
+            , accessToken = accessToken, refreshToken = refreshToken_token };
 
         }
     }

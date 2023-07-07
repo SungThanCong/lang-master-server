@@ -42,7 +42,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost("refreshtoken")]
-        public async Task<ActionResult> RefreshToken([FromForm] RefreshTokenRequest request)
+        public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {
             if (request == null)
             {

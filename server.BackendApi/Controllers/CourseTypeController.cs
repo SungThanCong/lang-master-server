@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Application.Catalog.Bills;
 using server.Application.Catalog.Courses;
@@ -6,6 +7,7 @@ using server.Data.EF;
 using server.Data.Entities;
 using server.ViewModel.Catalog.Bill;
 using server.ViewModel.Catalog.Course;
+using System.Data;
 
 namespace server.BackendApi.Controllers
 {
@@ -25,14 +27,15 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] CourseTypeCreateRequest data)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Create([FromBody] CourseTypeCreateRequest data)
         {
             try
             {
                 var courseType = await _courseTypeService.Create(data);
                 if (courseType is CourseType)
                 {
-                    return StatusCode(200, new JsonResult(courseType));
+                    return StatusCode(200, courseType);
                 }
                 else
                 {
@@ -46,12 +49,13 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, employee, lecturer")]
         public async Task<ActionResult> FindAll()
         {
             try
             {
                 var courseTypes = await _courseTypeService.FindAll();
-                return StatusCode(200, new JsonResult(courseTypes));
+                return StatusCode(200,  courseTypes);
 
             }
             catch (Exception ex)
@@ -60,13 +64,14 @@ namespace server.BackendApi.Controllers
             }
         }
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin,employee, lecturer")]
         public async Task<ActionResult> FindOne(string id)
         {
             try
             {
                 var courseType = await _courseTypeService.FindOne(id);
 
-                return StatusCode(200, new JsonResult(courseType));
+                return StatusCode(200, courseType);
 
             }
             catch (Exception ex)
@@ -76,7 +81,8 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] CourseTypeUpdateRequest request)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Update(string id, [FromBody] CourseTypeUpdateRequest request)
         {
             try
             {
@@ -95,6 +101,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Remove(string id)
         {
             try

@@ -12,7 +12,7 @@ namespace server.Data.Entities
         public Guid IdStudent { get; set; }
         public Guid IdClassTime { get; set; }
         public DateTime CheckedDate { get; set; }
-        public Student Student { get; set; }
-        public ClassTime ClassTime { get; set; }
+        public virtual Student Student { get; set; }
+        public virtual ClassTime ClassTime { get; set; }
     }
 }

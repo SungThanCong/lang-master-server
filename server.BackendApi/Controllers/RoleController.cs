@@ -19,7 +19,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] string name)
+        public async Task<ActionResult> Create([FromBody] string name)
         {
             if (name == null) return StatusCode(400, new { message = "Content can not be empty!" });
             try
@@ -71,7 +71,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] string name)
+        public async Task<ActionResult> Update(string id, [FromBody] string name)
         {
             try
             {

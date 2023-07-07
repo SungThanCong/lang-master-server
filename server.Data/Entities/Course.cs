@@ -24,13 +24,12 @@ namespace server.Data.Entities
 
         public bool IsDeleted { get; set; }
 
-        public Level Level { get; set; }
+        public virtual Level Level { get; set; }
 
-        public CourseType CourseType { get; set; }
+        public virtual CourseType CourseType { get; set; }
 
-        public List<BillInfo> BillInfos { get; set; }
-        public List<Class> Classes { get; set; }
-        public List<ColumnCourse> ColumnCourses { get; set; }
+        public virtual List<Class> Classes { get; set; }
+        public virtual List<ColumnCourse> ColumnCourses { get; set; }
 
 
     }

@@ -14,12 +14,12 @@ namespace server.Data.Entities
 
         public Guid IdTimeFrame { get; set; }
 
-        public Class Class { get; set; }
+        public virtual Class Class { get; set; }
 
-        public TimeFrame TimeFrame { get; set; }
+        public virtual TimeFrame TimeFrame { get; set; }
 
         public int DayOfWeek { get; set; }
 
-        public List<Attendance> Attendances { get; set; }
+        public virtual List<Attendance> Attendances { get; set; }
     }
 }

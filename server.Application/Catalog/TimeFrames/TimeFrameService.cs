@@ -23,9 +23,9 @@ namespace server.Application.Catalog.TimeFrames
         {
             TimeFrame frame = new TimeFrame()
             {
-                StartTime = request.StartTime,
-                EndTime = request.EndTime,
-                Active = request.Active
+                StartingTime = request.StartingTime,
+                EndingTime = request.EndingTime,
+                Activate = true,
             };
             await _context.TimeFrames.AddAsync(frame);
             var result = await _context.SaveChangesAsync();
@@ -67,9 +67,9 @@ namespace server.Application.Catalog.TimeFrames
             var frame = await _context.TimeFrames.FindAsync(id);
             if (frame != null)
             {
-                frame.Active = request.Active;
-                frame.StartTime = request.StartTime;
-                frame.EndTime = request.EndTime;
+                frame.Activate = request.Activate;
+                frame.StartingTime = request.StartingTime;
+                frame.EndingTime = request.EndingTime;
 
 
                 var result = await _context.SaveChangesAsync();
@@ -90,9 +90,9 @@ namespace server.Application.Catalog.TimeFrames
                     var frame = await _context.TimeFrames.FindAsync(request.IdTimeFrame);
                     if (frame != null)
                     {
-                        frame.Active = request.Active;
-                        frame.StartTime = request.StartTime;
-                        frame.EndTime = request.EndTime;
+                        frame.Activate = request.Activate;
+                        frame.StartingTime = request.StartingTime;
+                        frame.EndingTime = request.EndingTime;
                     }
                 }
                 var result = await _context.SaveChangesAsync();

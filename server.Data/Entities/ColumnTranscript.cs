@@ -16,8 +16,8 @@ namespace server.Data.Entities
 
         public int Max { get; set; }
 
-        public List<ColumnCourse> ColumnCourses { get; set; }
-        public List<Exam> Exams { get; set; }
+        public virtual List<ColumnCourse> ColumnCourses { get; set; }
+        public virtual List<Exam> Exams { get; set; }
 
     }
 }

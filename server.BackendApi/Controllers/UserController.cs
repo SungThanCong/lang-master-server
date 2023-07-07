@@ -16,12 +16,12 @@ namespace server.BackendApi.Controllers
             _userService = userService;
         }
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm]UserCreateRequest data)
+        public async Task<ActionResult> Create([FromBody]UserCreateRequest data)
         {
             var user = await _userService.Create(data);
             if (user is AppUser)
             {
-                return StatusCode(200, new JsonResult(user));
+                return StatusCode(200, user);
             }
             else
             {
@@ -35,7 +35,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var users = await _userService.FindAll();
-                return StatusCode(200, new JsonResult(users));
+                return StatusCode(200, users);
 
             }catch(Exception ex)
             {
@@ -52,7 +52,7 @@ namespace server.BackendApi.Controllers
                 {
                     return StatusCode(404, new { message= $"Cannot find User with idUser ={id}"});
                 }
-                return StatusCode(200, new JsonResult(user));
+                return StatusCode(200, user);
 
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id,[FromForm]UserUpdateRequest request)
+        public async Task<ActionResult> Update(string id,[FromBody]UserUpdateRequest request)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Remove(string id, [FromForm] UserUpdateRequest request)
+        public async Task<ActionResult> Remove(string id, [FromBody] UserUpdateRequest request)
         {
             try
             {

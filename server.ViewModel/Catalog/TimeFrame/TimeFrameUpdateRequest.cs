@@ -9,8 +9,8 @@ namespace server.ViewModel.Catalog.TimeFrame
     public class TimeFrameUpdateRequest
     {
         public Guid IdTimeFrame { get; set; }
-        public bool Active { get; set; }
-        public int StartTime { get; set; }
-        public int EndTime { get; set; }
+        public bool Activate { get; set; }
+        public string StartingTime { get; set; }
+        public string EndingTime { get; set; }
     }
 }

@@ -8,10 +8,10 @@ namespace server.ViewModel.Catalog.TimeFrame
 {
     public class TimeFrameCreateRequest
     {
-        public int StartTime { get; set; }
+        public string StartingTime { get; set; }
 
-        public int EndTime { get; set; }
+        public string EndingTime { get; set; }
 
-        public bool Active { get; set; }
+        public bool Activate { get; set; }
     }
 }

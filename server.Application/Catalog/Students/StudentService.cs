@@ -28,15 +28,16 @@ namespace server.Application.Catalog.Students
             {
                 AppUser appUser = new AppUser()
                 {
+                    UserName = "student1",
                     Email = request.Email,
                     DisplayName = request.DisplayName,
-                    Dob = request.Dob,
+                    Dob = DateTime.Parse(request.Dob),
                     Gender = request.Gender,
                     PhoneNumber = request.PhoneNumber,
                     Address = request.Address,
                     IsActivated = true,
                 };
-                var result = await _userManager.CreateAsync(appUser);
+                var result = await _userManager.CreateAsync(appUser,"Aa@123");
                 if (result == IdentityResult.Success)
                 {
 

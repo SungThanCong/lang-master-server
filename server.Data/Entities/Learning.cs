@@ -12,8 +12,8 @@ namespace server.Data.Entities
 
         public Guid IdClass { get; set;}
 
-        public Student Student { get; set; }
+        public virtual Student Student { get; set; }
 
-        public Class Class { get; set; }
+        public virtual Class Class { get; set; }
     }
 }

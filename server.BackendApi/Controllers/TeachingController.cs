@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] TeachingCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] TeachingCreateRequest data)
         {
             try
             {
                 var teaching = await _teachingService.Create(data);
                 if (teaching is Teaching)
                 {
-                    return StatusCode(200, new JsonResult(teaching));
+                    return StatusCode(200,teaching);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var teachings = await _teachingService.FindAll();
-                return StatusCode(200, new JsonResult(teachings));
+                return StatusCode(200, teachings);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var bill = await _teachingService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(bill));
+                return StatusCode(200, bill);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] TeachingUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] TeachingUpdateRequest request)
         {
             try
             {

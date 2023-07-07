@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] NotificationCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] NotificationCreateRequest data)
         {
             try
             {
                 var notification = await _notificationService.Create(data);
                 if (notification is Notification)
                 {
-                    return StatusCode(200, new JsonResult(notification));
+                    return StatusCode(200, notification);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var notifications = await _notificationService.FindAll();
-                return StatusCode(200, new JsonResult(notifications));
+                return StatusCode(200,notifications);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var notification = await _notificationService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(notification));
+                return StatusCode(200, notification);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] NotificationUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] NotificationUpdateRequest request)
         {
             try
             {

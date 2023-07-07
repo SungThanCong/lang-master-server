@@ -13,6 +13,6 @@ namespace server.Data.Entities
         public DateTime ExpiryDate { get; set; }
         public Guid IdUser { get; set; }
 
-        public AppUser AppUser { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }

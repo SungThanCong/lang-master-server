@@ -15,7 +15,7 @@ namespace server.Data.Entities
         public DateTime UpdateAt { get; set; }
         public Guid IdUser { get; set; }
 
-        public AppUser AppUser { get; set; }
+        public virtual AppUser AppUser { get; set; }
 
     }
 }

@@ -41,7 +41,7 @@ namespace server.Application.Catalog.Employees
                 var result = await _userManager.CreateAsync(appUser, request.Password);
                 if (result == IdentityResult.Success)
                 {
-                    await _userManager.AddToRoleAsync(appUser, request.IdRole);
+                    await _userManager.AddToRoleAsync(appUser, "employee");
 
                     Employee employee = new Employee()
                     {
@@ -82,7 +82,7 @@ namespace server.Application.Catalog.Employees
             var employee = await _context.Employees.FindAsync(id);
             if (employee != null)
             {
-                employee.AppUser.IsActivated = false;
+                employee.User.IsActivated = false;
                 employee.IsDeleted = true;
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)
@@ -98,12 +98,12 @@ namespace server.Application.Catalog.Employees
             var employee = await _context.Employees.FindAsync(id);
             if (employee != null)
             {
-                employee.AppUser.DisplayName = request.DisplayName;
-                employee.AppUser.Gender = request.Gender;
-                employee.AppUser.PhoneNumber = request.PhoneNumber ;
-                employee.AppUser.ImageUrl = request.ImageUrl;
-                employee.AppUser.Address = request.Address;
-                employee.AppUser.Dob = request.Dob;
+                employee.User.DisplayName = request.DisplayName;
+                employee.User.Gender = request.Gender;
+                employee.User.PhoneNumber = request.PhoneNumber ;
+                employee.User.ImageUrl = request.ImageUrl;
+                employee.User.Address = request.Address;
+                employee.User.Dob = request.Dob;
 
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)

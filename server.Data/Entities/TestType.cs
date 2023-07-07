@@ -12,6 +12,6 @@ namespace server.Data.Entities
 
         public string TypeName { get; set; }
 
-        public List<Exam> Exams { get; set; } 
+        public virtual List<Exam> Exams { get; set; } 
     }
 }

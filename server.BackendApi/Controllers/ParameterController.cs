@@ -31,7 +31,7 @@ namespace server.BackendApi.Controllers
                 var parameter = await _parameterService.Create(data);
                 if (parameter is Parameter)
                 {
-                    return StatusCode(200, new JsonResult(parameter));
+                    return StatusCode(200,parameter);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var parameters = await _parameterService.FindAll();
-                return StatusCode(200, new JsonResult(parameters));
+                return StatusCode(200, parameters);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var parameter = await _parameterService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(parameter));
+                return StatusCode(200, parameter);
 
             }
             catch (Exception ex)
@@ -74,12 +74,12 @@ namespace server.BackendApi.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] ParameterUpdateRequest request)
+        [HttpPatch]
+        public async Task<ActionResult> Update([FromForm] List<ParameterUpdateRequest> request)
         {
             try
             {
-                var isSucess = await _parameterService.Update(id, request);
+                var isSucess = await _parameterService.Update(request);
                 if (!isSucess)
                 {
                     return StatusCode(500, new { message = $"Error updating" });

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Data.EF;
 
@@ -11,9 +12,11 @@ using server.Data.EF;
 namespace server.Data.Migrations
 {
     [DbContext(typeof(LangDbContext))]
-    partial class LangDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706161539_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,7 +160,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "c4c8681a-ed77-47af-b780-e4303f560478",
+                            ConcurrencyStamp = "ad2882a3-5a4c-4b0e-92cf-2753641989d9",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -165,7 +168,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("0fcbb353-ae6b-4936-9fdd-950efeb452a6"),
-                            ConcurrencyStamp = "5320d495-2cfc-479b-9419-5f43669cb9e8",
+                            ConcurrencyStamp = "46dd09e7-dba3-4e7b-9168-fa15ec29246d",
                             Description = "Lecturer role",
                             Name = "lecturer",
                             NormalizedName = "lecturer"
@@ -173,7 +176,7 @@ namespace server.Data.Migrations
                         new
                         {
                             Id = new Guid("09480504-4c27-4af7-a492-adcdbbe6c097"),
-                            ConcurrencyStamp = "78242784-7da4-4551-81b9-3701814f26dd",
+                            ConcurrencyStamp = "b12da3cf-1a4b-4774-873f-15788dbab92d",
                             Description = "Employee role",
                             Name = "employee",
                             NormalizedName = "employee"
@@ -258,7 +261,7 @@ namespace server.Data.Migrations
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
                             Address = "Quang Nam",
-                            ConcurrencyStamp = "4b00bfc7-b0c7-4f2d-8ae3-b773a31fbb3a",
+                            ConcurrencyStamp = "8a3d6033-1361-4a10-9e78-ca8b9cd32629",
                             DisplayName = "Luu Le Ba Chinh",
                             Dob = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "chinh.admin@gmail.com",
@@ -268,7 +271,7 @@ namespace server.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "chinh.admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI594sOx6W/Ci88yINNMOaYqQh3VABHgxomlgs/N4JeVsLKvZP3KePlOP5Uy87VY3Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBVT9jZ8tcoCKXobh6tun5QikuGTPA/L12V/l+mPmkngjZzwqP7r8oDfPVaBfnRvkA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -309,7 +312,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 414, DateTimeKind.Local).AddTicks(8421));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 23, 15, 38, 933, DateTimeKind.Local).AddTicks(5939));
 
                     b.Property<Guid>("IdEmployee")
                         .HasColumnType("uniqueidentifier");
@@ -603,7 +606,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("PostedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 423, DateTimeKind.Local).AddTicks(389));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 23, 15, 38, 941, DateTimeKind.Local).AddTicks(3629));
 
                     b.Property<DateTime>("TestDate")
                         .HasColumnType("datetime2");
@@ -760,7 +763,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 429, DateTimeKind.Local).AddTicks(828));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 23, 15, 38, 947, DateTimeKind.Local).AddTicks(3156));
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -775,7 +778,7 @@ namespace server.Data.Migrations
                     b.Property<DateTime>("UpdateAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 7, 7, 0, 43, 18, 429, DateTimeKind.Local).AddTicks(977));
+                        .HasDefaultValue(new DateTime(2023, 7, 6, 23, 15, 38, 947, DateTimeKind.Local).AddTicks(3300));
 
                     b.HasKey("Id");
 
@@ -870,10 +873,10 @@ namespace server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Activate")
+                    b.Property<bool>("Active")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasDefaultValue(false);
 
                     b.Property<string>("EndingTime")
                         .IsRequired()

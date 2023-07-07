@@ -27,7 +27,7 @@ namespace server.Application.Common
                 _configuration["Tokens:Audience"],
                 claims,
                 null,
-                DateTime.Today.AddHours(SystemConstants.ACCESS_TOKEN_EXPIRED_HOURS));
+                DateTime.Now.AddHours(SystemConstants.ACCESS_TOKEN_EXPIRED_HOURS));
 
             var securityToken = new JwtSecurityToken(header, payload);
 

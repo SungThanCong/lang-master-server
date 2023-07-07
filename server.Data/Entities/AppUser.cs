@@ -18,12 +18,12 @@ namespace server.Data.Entities
         public string? ImageUrl { get; set; }
         public bool IsActivated { get; set; }
 
-        public Employee Employee { get; set; }
-        public Lecturer Lecturer { get; set; }
-        public Student Student { get; set; }
-        public RefreshTokens RefreshTokens { get; set; }
-        public List<Noti_Account> NotiAccounts { get; set; }
-        public List<ConfirmCodes> ConfirmCodes { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Lecturer Lecturer { get; set; }
+        public virtual Student Student { get; set; }
+        public virtual RefreshTokens RefreshTokens { get; set; }
+        public virtual List<Noti_Account> NotiAccounts { get; set; }
+        public virtual List<ConfirmCodes> ConfirmCodes { get; set; }
 
     }
 }

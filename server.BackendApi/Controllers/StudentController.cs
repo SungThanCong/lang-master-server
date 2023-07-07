@@ -31,11 +31,11 @@ namespace server.BackendApi.Controllers
                 var student = await _studentService.Create(data);
                 if (student is Student)
                 {
-                    return StatusCode(200, new JsonResult(student));
+                    return Ok(student);
                 }
                 else
                 {
-                    return StatusCode(500, student);
+                    return StatusCode(500);
                 }
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var students = await _studentService.FindAll();
-                return StatusCode(200, new JsonResult(students));
+                return StatusCode(200, students);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var student = await _studentService.FindOne(new Guid(id));
 
-                return StatusCode(200, new JsonResult(student));
+                return StatusCode(200,student);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] StudentUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] StudentUpdateRequest request)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost("updateScore")]
-        public async Task<ActionResult> UpdateScore([FromForm] List<Testing> testings)
+        public async Task<ActionResult> UpdateScore([FromBody] List<Testing> testings)
         {
             try
             {

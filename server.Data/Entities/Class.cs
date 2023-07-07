@@ -16,10 +16,12 @@ namespace server.Data.Entities
         public DateTime EndDate { get; set; }
         public bool IsDeleted { get; set; }
 
-        public Course Course { get; set; }
-        public List<ClassTime> ClassTimes { get; set; }
-        public List<Exam> Exams { get; set; }
-        public List<Learning> Learnings { get; set; }
-        public List<Teaching> Teachings { get; set; }
+        public virtual Course Course { get; set; }
+        public virtual List<ClassTime> ClassTimes { get; set; }
+        public virtual List<Exam> Exams { get; set; }
+        public virtual List<Learning> Learnings { get; set; }
+        public virtual List<Teaching> Teachings { get; set; }
+        public virtual List<BillInfo> BillInfos { get; set; }
+
     }
 }

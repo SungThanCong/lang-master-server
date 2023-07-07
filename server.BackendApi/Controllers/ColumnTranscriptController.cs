@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Application.Catalog.Bills;
 using server.Application.Catalog.ColumnTranscripts;
@@ -6,6 +7,7 @@ using server.Data.EF;
 using server.Data.Entities;
 using server.ViewModel.Catalog.Bill;
 using server.ViewModel.Catalog.ColumnTranscript;
+using System.Data;
 
 namespace server.BackendApi.Controllers
 {
@@ -24,14 +26,15 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] ColumnTranscriptCreateRequest data)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Create([FromBody] ColumnTranscriptCreateRequest data)
         {
             try
             {
                 var columnTranscript = await _columnTranscriptService.Create(data);
                 if (columnTranscript is ColumnTranscript)
                 {
-                    return StatusCode(200, new JsonResult(columnTranscript));
+                    return StatusCode(200, columnTranscript);
                 }
                 else
                 {
@@ -45,12 +48,13 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, employee, lecturer")]
         public async Task<ActionResult> FindAll()
         {
             try
             {
                 var bills = await _columnTranscriptService.FindAll();
-                return StatusCode(200, new JsonResult(bills));
+                return StatusCode(200, bills);
 
             }
             catch (Exception ex)
@@ -59,13 +63,14 @@ namespace server.BackendApi.Controllers
             }
         }
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, employee, lecturer")]
         public async Task<ActionResult> FindOne(string id)
         {
             try
             {
                 var bill = await _columnTranscriptService.FindOne(id);
 
-                return StatusCode(200, new JsonResult(bill));
+                return StatusCode(200,bill);
 
             }
             catch (Exception ex)
@@ -75,7 +80,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] ColumnTranscriptUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] ColumnTranscriptUpdateRequest request)
         {
             try
             {

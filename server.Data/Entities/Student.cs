@@ -14,11 +14,11 @@ namespace server.Data.Entities
 
         public bool IsDeleted { get; set; }
 
-        public AppUser AppUser { get; set; }
+        public virtual AppUser AppUser { get; set; }
 
-        public List<Bill> Bills { get; set; }
-        public List<Learning> Learnings { get; set; }
-        public List<Testing> Testings { get; set; }
-        public List<Attendance> Attendances { get; set; }
+        public virtual List<Bill> Bills { get; set; }
+        public virtual List<Learning> Learnings { get; set; }
+        public virtual List<Testing> Testings { get; set; }
+        public virtual List<Attendance> Attendances { get; set; }
     }
 }

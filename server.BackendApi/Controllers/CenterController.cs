@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] CenterCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] CenterCreateRequest data)
         {
             try
             {
                 var center = await _centerService.Create(data);
                 if (center is Center)
                 {
-                    return StatusCode(200, new JsonResult(center));
+                    return StatusCode(200, center);
                 }
                 else
                 {
@@ -49,8 +49,8 @@ namespace server.BackendApi.Controllers
         {
             try
             {
-                var bills = await _centerService.FindAll();
-                return StatusCode(200, new JsonResult(bills));
+                var centers = await _centerService.FindAll();
+                return StatusCode(200, centers);
 
             }
             catch (Exception ex)
@@ -63,9 +63,9 @@ namespace server.BackendApi.Controllers
         {
             try
             {
-                var bill = await _centerService.FindOne(id);
+                var center = await _centerService.FindOne(id);
 
-                return StatusCode(200, new JsonResult(bill));
+                return StatusCode(200, center);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] CenterUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] CenterUpdateRequest request)
         {
             try
             {

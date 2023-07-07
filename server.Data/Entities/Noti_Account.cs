@@ -11,7 +11,7 @@ namespace server.Data.Entities
         public Guid IdNotification { get; set; }
         public Guid IdAccount { get; set; }
 
-        public AppUser AppUser { get; set; }
-        public Notification Notification { get; set; }
+        public virtual AppUser AppUser { get; set; }
+        public virtual Notification Notification { get; set; }
     }
 }

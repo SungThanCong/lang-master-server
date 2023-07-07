@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] ClassTimeCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] ClassTimeCreateRequest data)
         {
             try
             {
                 var classTime = await _classTimeService.Create(data);
                 if (classTime is ClassTime)
                 {
-                    return StatusCode(200, new JsonResult(classTime));
+                    return StatusCode(200, classTime);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var classTimes = await _classTimeService.FindAll();
-                return StatusCode(200, new JsonResult(classTimes));
+                return StatusCode(200,classTimes);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var bill = await _classTimeService.FindOne(id);
 
-                return StatusCode(200, new JsonResult(bill));
+                return StatusCode(200, bill);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> Update(string id, [FromForm] ClassTimeUpdateRequest request)
+        public async Task<ActionResult> Update(string id, [FromBody] ClassTimeUpdateRequest request)
         {
             try
             {

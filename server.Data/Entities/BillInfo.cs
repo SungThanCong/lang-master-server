@@ -9,10 +9,10 @@ namespace server.Data.Entities
     public class BillInfo
     {
         public Guid IdBill { get; set; }
-        public Guid IdCourse { get; set; }
+        public Guid IdClass { get; set; }
         public decimal Fee { get; set; }
 
-        public Bill Bill { get; set; }
-        public Course Course { get; set; }
+        public virtual Bill Bill { get; set; }
+        public virtual Class Class { get; set; }
     }
 }

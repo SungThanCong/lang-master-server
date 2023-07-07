@@ -24,14 +24,14 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromForm] BillInfoCreateRequest data)
+        public async Task<ActionResult> Create([FromBody] BillInfoCreateRequest data)
         {
             try
             {
                 var billInfo = await _billInfoService.Create(data);
                 if (billInfo is BillInfo)
                 {
-                    return StatusCode(200, new JsonResult(billInfo));
+                    return StatusCode(200, billInfo);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace server.BackendApi.Controllers
             try
             {
                 var billInfos = await _billInfoService.FindAll(new Guid(id));
-                return StatusCode(200, new JsonResult(billInfos));
+                return StatusCode(200, billInfos);
 
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace server.BackendApi.Controllers
             {
                 var billInfo = await _billInfoService.FindOne(new Guid(idBill), new Guid(idCourse));
 
-                return StatusCode(200, new JsonResult(billInfo));
+                return StatusCode(200, billInfo);
 
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace server.BackendApi.Controllers
         }
 
         [HttpPatch("{idBill}/{idCourse}")]
-        public async Task<ActionResult> Update(string idBill, string idCourse,[FromForm] BillInfoUpdateRequest request)
+        public async Task<ActionResult> Update(string idBill, string idCourse,[FromBody] BillInfoUpdateRequest request)
         {
             try
             {

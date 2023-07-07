@@ -12,8 +12,8 @@ namespace server.Data.Entities
 
         public Guid IdCourse { get; set; }
 
-        public ColumnTranscript ColumnTranscript { get; set; }
+        public virtual ColumnTranscript ColumnTranscript { get; set; }
 
-        public Course Course { get; set; }
+        public virtual Course Course { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace server.ViewModel.Catalog.Bill
     public class BillInfoCreateRequest
     {
         public Guid IdBill { get; set; }
-        public Guid IdCourse { get; set; }
+        public Guid IdClass { get; set; }
         public decimal Fee { get; set; }
     }
 }

@@ -14,8 +14,8 @@ namespace server.Data.Entities
 
         public bool IsDeleted { get; set; }
 
-        public AppUser AppUser { get; set; }
+        public virtual AppUser User { get; set; }
 
-        public List<Bill> Bills { get; set; }
+        public virtual List<Bill> Bills { get; set; }
     }
 }

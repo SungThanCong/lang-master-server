@@ -11,13 +11,19 @@ namespace server.Data.EF
 {
     public class LangDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
+       
         public LangDbContext(DbContextOptions options) : base(options)
         {
-
+         
         }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies(true);
+            base.OnConfiguring(optionsBuilder);
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+           
             builder.ApplyConfiguration(new AppRoleConfiguration());
             builder.ApplyConfiguration(new AppUserConfiguration());
             builder.ApplyConfiguration(new BillConfiguration());
@@ -103,7 +109,8 @@ namespace server.Data.EF
             var connectionString = configuration.GetConnectionString("LangcenterDatabase");
 
             var optionBuilder = new DbContextOptionsBuilder<LangDbContext>();
-            optionBuilder.UseSqlServer(connectionString);
+            optionBuilder.UseSqlServer(connectionString).UseLazyLoadingProxies(false);
+            
 
             return new LangDbContext(optionBuilder.Options);
         }

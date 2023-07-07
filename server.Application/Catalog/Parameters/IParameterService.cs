@@ -12,7 +12,7 @@ namespace server.Application.Catalog.Parameters
     public interface IParameterService
     {
         public Task<Parameter?> Create(ParameterCreateRequest request);
-        public Task<bool> Update(string name, ParameterUpdateRequest request);
+        public Task<bool> Update(List<ParameterUpdateRequest> request);
         public Task<bool> Remove(Guid id);
         public Task<List<Parameter>> FindAll();
         public Task<Parameter?> FindOne(Guid id);

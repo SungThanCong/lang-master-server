@@ -15,6 +15,6 @@ namespace server.Data.Entities
 
         public bool IsDeleted { get; set; }
 
-        public List<Course> Courses { get; set; }
+        public virtual List<Course> Courses { get; set; }
     }
 }

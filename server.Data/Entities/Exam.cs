@@ -26,12 +26,12 @@ namespace server.Data.Entities
 
         public DateTime TestDate { get; set; }
 
-        public Class Class { get; set; }
+        public virtual Class Class { get; set; }
 
-        public TestType TestType { get; set; }
+        public virtual TestType TestType { get; set; }
 
-        public ColumnTranscript ColumnTranscript { get; set; }
+        public virtual ColumnTranscript ColumnTranscript { get; set; }
 
-        public List<Testing> Testings { get; set; }
+        public virtual List<Testing> Testings { get; set; }
     }
 }

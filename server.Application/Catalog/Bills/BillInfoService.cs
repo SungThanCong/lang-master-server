@@ -23,7 +23,7 @@ namespace server.Application.Catalog.Bills
             BillInfo bif = new BillInfo()
             {
                 IdBill = request.IdBill,
-                IdCourse = request.IdCourse,
+                IdClass = request.IdClass,
                 Fee = request.Fee
             };
             await _context.BillInfos.AddAsync(bif);
@@ -41,14 +41,14 @@ namespace server.Application.Catalog.Bills
             return await _context.BillInfos.Where(x => x.IdBill == idBill).ToListAsync();
         }
 
-        public async Task<BillInfo?> FindOne(Guid idBill, Guid idCourse)
+        public async Task<BillInfo?> FindOne(Guid idBill, Guid idClass)
         {
-            return await _context.BillInfos.Where(x => x.IdBill == idBill && x.IdCourse == idCourse).FirstOrDefaultAsync();
+            return await _context.BillInfos.Where(x => x.IdBill == idBill && x.IdClass == idClass).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> Remove(Guid idBill, Guid idCourse)
+        public async Task<bool> Remove(Guid idBill, Guid idClass)
         {
-            var billInfo = await _context.BillInfos.Where(x => x.IdBill == idBill && x.IdCourse == idCourse).FirstOrDefaultAsync();
+            var billInfo = await _context.BillInfos.Where(x => x.IdBill == idBill && x.IdClass == idClass).FirstOrDefaultAsync();
             if(billInfo != null)
             {
                 _context.BillInfos.Remove(billInfo);
@@ -59,9 +59,9 @@ namespace server.Application.Catalog.Bills
             return false;
         }
 
-        public async Task<bool> Update(Guid idBill, Guid idCourse, BillInfoUpdateRequest request)
+        public async Task<bool> Update(Guid idBill, Guid idClass, BillInfoUpdateRequest request)
         {
-            var billInfo = await _context.BillInfos.Where(x => x.IdBill == idBill && x.IdCourse == idCourse).FirstOrDefaultAsync();
+            var billInfo = await _context.BillInfos.Where(x => x.IdBill == idBill && x.IdClass == idClass).FirstOrDefaultAsync();
             if (billInfo != null)
             {
                 billInfo.Fee = request.Fee;
